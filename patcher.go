@@ -1,7 +1,7 @@
 package update
 
 import (
-	"github.com/xxl6097/go-update/internal/binarydist"
+	"github.com/xxl6097/go-update/pkg/binarydist"
 	"io"
 )
 

@@ -7,7 +7,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"github.com/xxl6097/go-update/internal/osext"
+	"github.com/xxl6097/go-update/pkg/osext"
 	"io"
 	"io/ioutil"
 	"os"
