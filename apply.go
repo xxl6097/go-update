@@ -7,12 +7,11 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"github.com/xxl6097/go-update/internal/osext"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-
-	"github.com/inconshreveable/go-update/internal/osext"
 )
 
 var (
@@ -118,6 +117,14 @@ func Apply(update io.Reader, opts Options) error {
 		return err
 	}
 
+	if opts.Middler != nil {
+		e := opts.Middler.Middle(newPath)
+		if e != nil {
+			_ = os.Remove(newPath)
+			return e
+		}
+	}
+
 	// if we don't call fp.Close(), windows won't let us move the new executable
 	// because the file will still be "in use"
 	fp.Close()
@@ -219,6 +226,8 @@ type Options struct {
 	// If nil, treat the update as a complete replacement for the contents of the file at TargetPath.
 	// If non-nil, treat the update contents as a patch and use this object to apply the patch.
 	Patcher Patcher
+
+	Middler Middler
 
 	// Store the old executable file at this path after a successful update.
 	// The empty string means the old executable file will be removed after the update.
