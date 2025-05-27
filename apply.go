@@ -118,7 +118,7 @@ func Apply(update io.Reader, opts Options) error {
 	}
 
 	if opts.Middler != nil {
-		e := opts.Middler.Middle(newPath)
+		e := opts.Middler(newPath)
 		if e != nil {
 			_ = os.Remove(newPath)
 			return e
@@ -227,7 +227,7 @@ type Options struct {
 	// If non-nil, treat the update contents as a patch and use this object to apply the patch.
 	Patcher Patcher
 
-	Middler Middler
+	Middler func(string) error
 
 	// Store the old executable file at this path after a successful update.
 	// The empty string means the old executable file will be removed after the update.
