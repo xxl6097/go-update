@@ -117,6 +117,10 @@ func Apply(update io.Reader, opts Options) error {
 		return err
 	}
 
+	// if we don't call fp.Close(), windows won't let us move the new executable
+	// because the file will still be "in use"
+	fp.Close()
+
 	if opts.Middler != nil {
 		e := opts.Middler(newPath)
 		if e != nil {
@@ -124,11 +128,6 @@ func Apply(update io.Reader, opts Options) error {
 			return e
 		}
 	}
-
-	// if we don't call fp.Close(), windows won't let us move the new executable
-	// because the file will still be "in use"
-	fp.Close()
-
 	// this is where we'll move the executable to so that we can swap in the updated replacement
 	oldPath := opts.OldSavePath
 	removeOld := opts.OldSavePath == ""
