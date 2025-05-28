@@ -8,11 +8,10 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
+	"github.com/xxl6097/go-update/pkg/binarydist"
 	"io/ioutil"
 	"os"
 	"testing"
-
-	"github.com/inconshreveable/go-update/internal/binarydist"
 )
 
 var (
